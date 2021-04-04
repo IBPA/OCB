@@ -1,6 +1,6 @@
 # Validation of the compendium
 <h4>Before you read this part, please make sure you read the <a href=https://github.com/IBPA/OCB/tree/master>main documentation first.</a></h4>
-<h4>Please read <a href=https://github.com/IBPA/OCB/tree/master/TranscriptomicPipeline/README.md>step-by-step</a> example for more information. </h4>
+<h4>Please read <a href=https://github.com/IBPA/OCB/tree/master/TranscriptomicPipelines/README.md>step-by-step</a> example for more information. </h4>
 It is important to validate and check the quality of the compendium. There are one supervised approach and three unsupervised approaches to check the quality or validate the compendium you built.
 
 ## An unsupervised approach -- Drop and impute values approach
