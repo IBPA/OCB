@@ -42,7 +42,7 @@ matplotlib==3.0.2
 
 ## Running
 
-The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./TranscriptomicPipeline/README.md).
+The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./TranscriptomicPipelines/README.md).
 
 ### Constructing Compendium
 
