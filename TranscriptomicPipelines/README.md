@@ -257,7 +257,10 @@ For <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeC
 Once you prepare both sample selection table and gene selection table, run the following command:
 
 ```
-python supervised_validation_knowledge_capture_script.py  SalmonellaExample Input_KnowledgeCapture_fur.csv Input_KnowledgeCapture_fur_related_genes.csv
+python supervised_validation_knowledge_capture_script.py \
+    SalmonellaExample \
+    ../TestFiles/Input_KnowledgeCapture_fur.csv \
+    ../TestFiles/Input_KnowledgeCapture_fur_related_genes.csv
 ```
 It will generate knowledge capture validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
