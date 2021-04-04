@@ -72,12 +72,12 @@ python build_compendium_script.py \
 ### Validating Compendium
 
 The pipeline provides several approaches to ensure the quality of the generated compendiums:
-- [Unsupervised validation](./TranscriptomicPipeline/VALIDATION.md)
-- [Supervised validation with correlation](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----correlation-validation)
-- [Supervised validation with knowledge capture](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
-- [Supervised validation with published data](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----published-data-comparison)
+- [Unsupervised validation](./TranscriptomicPipelines/VALIDATION.md)
+- [Supervised validation with correlation](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----correlation-validation)
+- [Supervised validation with knowledge capture](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
+- [Supervised validation with published data](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----published-data-comparison)
 
-Please refer to [validation totorial](./TranscriptomicPipeline/VALIDATION.md).
+Please refer to [validation totorial](./TranscriptomicPipelines/VALIDATION.md).
 
 # Authors
 
