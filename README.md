@@ -1,24 +1,34 @@
 # Omics Compendium Builder (OCB): An automated omics compendium preparation pipeline
+
 This toolkit can prepare the transcriptomic compendium, a normalized, format-consistent data matrix across samples from different studies, by collecting the samples in <a href="https://www.ncbi.nlm.nih.gov/sra">Sequencing Read Archive (SRA)</a> database given the topic you are interested in and your target species.
-![Figure 1. The entire transcriptomic compendium pipeline](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Figure1.png)
+
+![Figure 1. The entire transcriptomic compendium pipeline](./images/Figure1.png)
 **Figure 1. The entire transcriptomic compendium pipeline.** The process consists of 6 steps: **1**, Metadata preparation by extracting run information from SRA. **2**, Downloading sequencing data in FASTA format. **3**, Aligning sequences with reference genomes. **4**, Generating gene expression profile for each run given the corresponding sequence direction information (BED) and gene annotation. **5**, Normalizing gene expression profile table. **6**, Different approaches for validating the quality of the generated compendium.
 
-# Installation
+# Directories
+- [`TranscriptomicPipelines`](./TranscriptomicPipelines): The folder contains the source code for OCB.
+
+# Getting Started
+
 Download the entire repository:
 ```
-git clone https://github.com/bigghost2054/Omics-Compendium-Builder-OCB
+git clone https://github.com/IBPA/OCB.git
 ```
 
 ## Dependencies
 
+<!-- TODO after CHengEn's setup script is done. -->
 ### Software
-Make sure the following softwares are installed. We recommend to use Anaconda to ensure that they are installed correctly on $PATH.
+
+Make sure the following softwares are installed.
 ```
 python==3.6
 sra-tools==2.10.8
 bowtie==2.3.4
 ```
+
 ### Packages
+
 Make sure to install the following Python packages.
 ```
 biopython==1.74
@@ -30,53 +40,72 @@ scikit-learn==0.20.1
 matplotlib==3.0.2
 ```
 
-# How to Use
-The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./STEP-BY-STEP.md).
+## Running
 
-## Constructing Compendium
+The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./TranscriptomicPipelines/README.md).
 
-### Input
+### Constructing Compendium
+
+#### Input
+
 In order to build a compendium, the script needs three input arguments:
 - The path to a sample list file ([Example](./TestFiles/SalmonellaExampleSampleList.csv))
 - The path to a gene annotation file.
 - An output compendium name.
 
-### Output
+#### Output
+
 This script will generate a directory with specified compendium name and many files in the directory. There are two outputs that are the most important:
 - Normalized data matrix: A CSV table that contains normalized gene expression profiles of all samples. Each row represents different genes and each column represents different samples. The output is stored in '($compendium_name)_NormalizedDataMatrix.csv'.
 - Compendium in binary format: A python object that contains the normalized gene expression table and the recorded parameters. It can be used for optional validation. The output is stored in '($compendium_name)_projectfile.bin'.
 
-### Example
+
+#### Example
 ```
 cd TranscriptomicPipelines
-python build_compendium_script.py
-    ../TestFiles/SalmonellaExampleSampleList.csv
-    ../TestFiles/GCF_000006945.2_ASM694v2
-    CompendiumExample
+python build_compendium_script.py \
+    ../TestFiles/SalmonellaExampleSampleList.csv \
+    ../TestFiles/GCF_000006945.2_ASM694v2 \
+    SalmonellaExample
 ```
 
-## Validating Compendium
+### Validating Compendium
+
 The pipeline provides several approaches to ensure the quality of the generated compendiums:
-- [Unsupervised validation](./VALIDATION.md)
-- [Supervised validation with correlation](./VALIDATION.md#an-supervised-approach----correlation-validation)
-- [Supervised validation with knowledge capture](./VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
-- [Supervised validation with published data](./VALIDATION.md#an-supervised-approach----published-data-comparison)
+- [Unsupervised validation](./TranscriptomicPipelines/VALIDATION.md)
+- [Supervised validation with correlation](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----correlation-validation)
+- [Supervised validation with knowledge capture](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
+- [Supervised validation with published data](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----published-data-comparison)
 
-Please refer to [validation totorial](./VALIDATION.md).
-
-# Future Work
-In the future, this toolkit will also be capable to process microarray dataset from GEO and ArrayExpress database.
+Please refer to [validation totorial](./TranscriptomicPipelines/VALIDATION.md).
 
 # Authors
+
 - [ChengEn Tan](https://github.com/bigghost2054) as the project lead, main author, and the main developer.
 - [Fangzhou Li](https://github.com/fangzhouli) as the metadata pipeline developer and the code reviewer.
 - [Dr. Minseung Kim](https://github.com/minseven) as the technical advisor.
 - [Dr. Ilias Tagkopoulos](https://github.com/itagkopoulos) as the project supervisor and advisor.
 
+<!-- TODO if we want to list more detailed contact info like ChengEn's. -->
+# Contact
+
+For any questions, please contact us at tagkopouloslab@ucdavis.edu.
+
+<!-- # Citation
+
+TODO -->
+
 # License
+
 This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICENSE) file for details.
 
-# References
+<!-- If we have any. -->
+<!-- # Acknowledgements
+
+TODO -->
+
+<!-- # References
+
 <ol>
 	<li>Langmead, B. & Salzberg, S. L. Fast gapped-read alignment with Bowtie 2. Nat Methods 9, 357–9 (2012).</li>
 	<li>Anders, S., Pyl, P. T. & Huber, W. HTSeq--a Python framework to work with high-throughput sequencing data. Bioinformatics 31, 166–9 (2015).</li>
@@ -95,4 +124,4 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICE
 	<li>Hauke, J. & Kossowski, T. Comparison of values of Pearson’s and Spearman’s correlation coefficients on the same sets of data. Quaestiones geographicae 30, 87–93 (2011).</li>
 	<li>Kroger, C. et al. An infection-relevant transcriptomic compendium for Salmonella enterica Serovar Typhimurium. Cell Host Microbe 14, 683–95 (2013).</li>
 	<li>Colgan, A. M. et al. The Impact of 18 Ancestral and Horizontally-Acquired Regulatory Proteins upon the Transcriptome and sRNA Landscape of Salmonella enterica serovar Typhimurium. PLoS Genet 12, e1006258 (2016).</li>
-</ol>
+</ol> -->

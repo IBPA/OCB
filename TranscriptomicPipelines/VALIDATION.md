@@ -1,6 +1,6 @@
 # Validation of the compendium
-<h4>Before you read this part, please make sure you read the <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/tree/master>main documentation first.</a></h4>
-<h4>Please read <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/STEP-BY-STEP.md>step-by-step</a> example for more information. </h4>
+<h4>Before you read this part, please make sure you read the <a href=https://github.com/IBPA/OCB/tree/master>main documentation first.</a></h4>
+<h4>Please read <a href=https://github.com/IBPA/OCB/tree/master/TranscriptomicPipeline/README.md>step-by-step</a> example for more information. </h4>
 It is important to validate and check the quality of the compendium. There are one supervised approach and three unsupervised approaches to check the quality or validate the compendium you built.
 
 ## An unsupervised approach -- Drop and impute values approach
@@ -46,7 +46,7 @@ It is important to validate and check the quality of the compendium. There are o
     </li> 
 </ol>
 
-![Figure V1. Four steps of drop and impute values approach](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Figure2.png)
+![Figure V1. Four steps of drop and impute values approach](../images/Figure2.png)
 Figure V1. Four steps of drop and impute values approach
 
 ### Benchmark evaluation
@@ -65,14 +65,14 @@ Figure V1. Four steps of drop and impute values approach
 </ul>
 <h4>Current pipeline use the second defination as the benchmark. Since the noise ratio should be between 0 and 1 and typically error will not exceed 100%, the area will be between 0% and 100%.</h4>
 
-![Figure V2. Benchmark evaluation of drop and impute values approach](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Unsupervised_validation_description.png)
+![Figure V2. Benchmark evaluation of drop and impute values approach](../images/Unsupervised_validation_description.png)
 Figure V2. Benchmark evaluation of drop and impute values approach. The area between 100% error horizontal line and the error curve from missing value ratio = 0.5 (orange line) is evaluated as the benchmark.
 
 ### Benchmark comparison with reference compendium
 After you got the benchmark with 49.35%, you want to know whether 49.35% is high enough to prove the compendium quality. To check whether this value is high enough, you need to fine one reference compendium with good quality and then evalute its benchmark and then make the comparison.
 
 <h4>Reference compendium with good quality</h4>
-For this Salmonella example compendium with 709 samples, it includes <a href=https://www.sciencedirect.com/science/article/pii/S1931312813004113">one small, published compendium</a> with 26 samples across different conditions and we can use this as a reference compendium.
+For this Salmonella example compendium with 709 samples, it includes <a href=https://www.sciencedirect.com/science/article/pii/S1931312813004113>one small, published compendium</a> with 26 samples across different conditions and we can use this as a reference compendium.
 <ul>
     <li>The benchmark of the Salmonella example compendium (with 709 samples) is about 49.35%. (it varies due to the randomness of validation procedures)</li>
     <li>The benchmark of the reference compendium (with 26 samples) is about 55.51%.</li>
@@ -81,7 +81,7 @@ For this Salmonella example compendium with 709 samples, it includes <a href=htt
 In conclusion, the benchmark of the subset of Salmonella example compendium is comparable with the benchmark of the refernece compendium. <br>
 You may also observed that for the high missing value ratio (0.99), the imputation error of the entire Salmonella example compendium is lower than the reference compendium or the subset compendium. It may implies that capture more samples can capture more information for recovering the missing values in this validation procedure.
 
-![Figure V3. Benchmark comparison results](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Unsupervised_validation_comparison.png)
+![Figure V3. Benchmark comparison results](../images/Unsupervised_validation_comparison.png)
 Figure V3. Benchmark comparison results. (A) The results of the entire Salmonella example compendium with 709 samples. (B) The results of the reference compendium. (C) The results of the subset of Salmonella example compendium contains the samples in the reference compendium.
 
 
@@ -106,7 +106,7 @@ Figure V3. Benchmark comparison results. (A) The results of the entire Salmonell
     </li>
     <li>Read the samples-studies-conditions mapping table and group the samples by conditions or studies.
         <ul>
-            <li>It need one user input: Sample-study-condition mapping table, a csv file contains study name (or ID) and condition for selected samples in your compendium (<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SalmonellaExample_CorrelationValidation.csv>Example</a>). It contains three columns:
+            <li>It need one user input: Sample-study-condition mapping table, a csv file contains study name (or ID) and condition for selected samples in your compendium (<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/SalmonellaExample_CorrelationValidation.csv>Example</a>). It contains three columns:
             <ol>
                 <li>exp_id: Sample ID. (should be a subset of the sample list you provided when you prepared the compendium)</li>
                 <li>series_id: Study ID or Study Name. </li>
@@ -133,7 +133,7 @@ Figure V3. Benchmark comparison results. (A) The results of the entire Salmonell
 <ol>
     <li>Read the samples-studies-conditions mapping table and group the samples by conditions or studies.
         <ul>
-            <li>It need one user input: Sample-study-condition mapping table, a csv file contains study name (or ID) and condition for selected samples in your compendium (<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SalmonellaExample_CorrelationValidation.csv>Example</a>). It contains three columns:
+            <li>It need one user input: Sample-study-condition mapping table, a csv file contains study name (or ID) and condition for selected samples in your compendium (<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/SalmonellaExample_CorrelationValidation.csv>Example</a>). It contains three columns:
             <ol>
                 <li>exp_id: Sample ID. (should be a subset of the sample list you provided when you prepared the compendium)</li>
                 <li>series_id: Study ID or Study Name. </li>
@@ -160,20 +160,20 @@ Figure V3. Benchmark comparison results. (A) The results of the entire Salmonell
     <li>For checking diversity, the correlation curve among different studies or conditions (the red and purple curve) should not be too high. However, the exact threshold is not defined in the current version.</li>
 </ol>
 
-![Figure V4. Evaluation and observation of the correlation validation results.](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/SalmonellaExample_CorrelationValidationResults.png)
+![Figure V4. Evaluation and observation of the correlation validation results.](../images/SalmonellaExample_CorrelationValidationResults.png)
 <br>Figure V4. Evaluation and observation of the correlation validation results. It follow the first two criteria: the green curve (average correlation of samples grouping by conditions) is higher than orange curve (average correlation of samples grouping by studies), and the orange curve is higher than the blue line (average correlation of the entire compendium).
 
 
 ## An Supervised approach -- Knowledge capture validation
 <h4>Supervised approaches need additional information from users. For knowledge capture validation, it needs two inputs:</h4>
 <ol>
-    <li>Sample selection table: A csv file contains samples and case/control indicator(<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur.csv>Example</a>). It contains two columns:
+    <li>Sample selection table: A csv file contains samples and case/control indicator(<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur.csv>Example</a>). It contains two columns:
     <ol>
         <li>exp_id: Sample ID. (should be a subset of the sample list you provided when you prepared the compendium)</li>
         <li>indicator: inticate case or control (1 means case and 0 means control)</li>
     </ol>
     </li>
-    <li>Gene selection table: A csv file contains genes(<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Example</a>). It contains one column:
+    <li>Gene selection table: A csv file contains genes(<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Example</a>). It contains one column:
     <ol>
         <li>gene_list: Gene names. (should be a subset of gene names in the normalized data matrix.)</li>
         <li>Other columns are just for comment and will not be processed.</li>
@@ -208,7 +208,7 @@ The second level is more difficult but also more valuable:
     </li>
     <li>Read the sample selection table and pick the case samples and control samples, and then calculate the absolute log fold change of average gene expressions between case samples and control samples. Then the rank of absolute log fold change is evaluated.
         <ul>
-            <li>Sample selection table: A csv file contains samples and case/control indicator(<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur.csv>Example</a>). It contains two columns:
+            <li>Sample selection table: A csv file contains samples and case/control indicator(<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur.csv>Example</a>). It contains two columns:
             <ol>
                 <li>exp_id: Sample ID. (should be a subset of the sample list you provided when you prepared the compendium)</li>
                 <li>indicator: inticate case or control (1 means case and 0 means control)</li>
@@ -219,7 +219,7 @@ The second level is more difficult but also more valuable:
     </li>
     <li>Read the gene selection table and pick the genes which is expected to have significant fold change. The rank of absolute log fold change of these gene are selected and sorted.</li>
         <ul>
-            <li>Gene selection table: A csv file contains genes(<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Example</a>). It contains one column:
+            <li>Gene selection table: A csv file contains genes(<a href=https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Example</a>). It contains one column:
             <ol>
                 <li>gene_list: Gene names. (should be a subset of gene names in the normalized data matrix.)</li>
                 <li>Other columns are just for comment and will not be processed.</li>
@@ -234,7 +234,7 @@ The second level is more difficult but also more valuable:
     </li>
 </ol>
 
-![Figure V5. Knowledge capture validation steps.](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Figure4.png)
+![Figure V5. Knowledge capture validation steps.](../images/Figure4.png)
 <br>Figure V5. Knowledge capture validation steps.
 
 ### Validation of the results
@@ -274,10 +274,10 @@ The rank of the absolute log fold change should be significantly different than 
     </li>
 </ul>
 
-![Figure V6. Knowledge capture validation results--Salmonella.](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/knowledge_capture_Salmonella.png)
+![Figure V6. Knowledge capture validation results--Salmonella.](../images/knowledge_capture_Salmonella.png)
 <br>Figure V6. Knowledge capture validation results--Salmonella. (A) fur mutant case. (B) hfq mutant case.
 
-![Figure V7. Validation of information capture in specific study--Human (Ischemic heart disease case).](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/IschemicHeartDiseaseSimplified2_KnowledgeCaptureValidationResults.png)
+![Figure V7. Validation of information capture in specific study--Human (Ischemic heart disease case).](../images/IschemicHeartDiseaseSimplified2_KnowledgeCaptureValidationResults.png)
 <br>Figure V7. Validation of information capture in specific study--Human (Ischemic heart disease case).
 
 
@@ -294,11 +294,11 @@ You can compare your compendium with the published data directly. The pipeline w
     <li>Calculate the correlation between the gene expression profile in the compendium and given published data matrix for each sample, and then plot the log gene expression level.</li>
 </ol>
 
-![Figure V8. Published data comparison steps.](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/Figure5.png)
+![Figure V8. Published data comparison steps.](../images/Figure5.png)
 <br>Figure V8. Published data comparison steps.
 
 ### Validation of the results:
 Even without any additional normalization and standardization, the average PCC and SCC between published data and the compendium should be higher than 0.8. For the comparison case: Salmonella example compendium vs. <a href = https://www.sciencedirect.com/science/article/pii/S1931312813004113>published small compendium</a> (For the original and format-refined dataset please refer <a href="https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/STEP-BY-STEP.md#341-find-a-reference-compendium">here</a>), both average PCC and SCC are around 0.9.
 
-![Figure V9. Published data comparison steps.](https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/images/PublishedDataComparisonResults.png)
+![Figure V9. Published data comparison steps.](../images/PublishedDataComparisonResults.png)
 <br>Figure V9. Published data comparison results (Salmonella example compared with published compendium ).
