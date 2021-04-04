@@ -234,7 +234,9 @@ For this <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Samples_stu
 Once you prepare the mapping table, run the following command:
 
 ```
-python supervised_validation_corr_script.py SalmonellaExample Samples_studies_conditions_mappingtable.csv
+python supervised_validation_corr_script.py \
+    SalmonellaExample \
+    ../TestFiles/Samples_studies_conditions_mappingtable.csv
 ```
 
 It will generate correlation validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
