@@ -2,10 +2,11 @@
 
 This toolkit can prepare the transcriptomic compendium, a normalized, format-consistent data matrix across samples from different studies, by collecting the samples in <a href="https://www.ncbi.nlm.nih.gov/sra">Sequencing Read Archive (SRA)</a> database given the topic you are interested in and your target species.
 
-![Figure 1. The entire transcriptomic compendium pipeline](https://github.com/IBPA/OCB/blob/master/images/Figure1.png)
+![Figure 1. The entire transcriptomic compendium pipeline](./images/Figure1.png)
 **Figure 1. The entire transcriptomic compendium pipeline.** The process consists of 6 steps: **1**, Metadata preparation by extracting run information from SRA. **2**, Downloading sequencing data in FASTA format. **3**, Aligning sequences with reference genomes. **4**, Generating gene expression profile for each run given the corresponding sequence direction information (BED) and gene annotation. **5**, Normalizing gene expression profile table. **6**, Different approaches for validating the quality of the generated compendium.
 
 # Directories
+- [`TranscriptomicPipelines`](./TranscriptomicPipelines): The folder contains the source code for OCB.
 
 # Getting Started
 
@@ -41,7 +42,7 @@ matplotlib==3.0.2
 
 ## Running
 
-The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./STEP-BY-STEP.md).
+The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./TranscriptomicPipeline/README.md).
 
 ### Constructing Compendium
 
@@ -62,21 +63,21 @@ This script will generate a directory with specified compendium name and many fi
 #### Example
 ```
 cd TranscriptomicPipelines
-python build_compendium_script.py
-    ../TestFiles/SalmonellaExampleSampleList.csv
-    ../TestFiles/GCF_000006945.2_ASM694v2
-    CompendiumExample
+python build_compendium_script.py \
+    ../TestFiles/SalmonellaExampleSampleList.csv \
+    ../TestFiles/GCF_000006945.2_ASM694v2 \
+    SalmonellaExample
 ```
 
 ### Validating Compendium
 
 The pipeline provides several approaches to ensure the quality of the generated compendiums:
-- [Unsupervised validation](./VALIDATION.md)
-- [Supervised validation with correlation](./VALIDATION.md#an-supervised-approach----correlation-validation)
-- [Supervised validation with knowledge capture](./VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
-- [Supervised validation with published data](./VALIDATION.md#an-supervised-approach----published-data-comparison)
+- [Unsupervised validation](./TranscriptomicPipeline/VALIDATION.md)
+- [Supervised validation with correlation](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----correlation-validation)
+- [Supervised validation with knowledge capture](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
+- [Supervised validation with published data](./TranscriptomicPipeline/VALIDATION.md#an-supervised-approach----published-data-comparison)
 
-Please refer to [validation totorial](./VALIDATION.md).
+Please refer to [validation totorial](./TranscriptomicPipeline/VALIDATION.md).
 
 # Authors
 

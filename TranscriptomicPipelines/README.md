@@ -4,12 +4,12 @@
 ## Necessary files in this example:
 There are some necessary files for compendium building and supervised validation.
 <ol>
-    <li>Sample list files (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SalmonellaExampleSampleList.csv>SalmonellaExampleSampleList.csv</a>)
+    <li>Sample list files (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/SalmonellaExampleSampleList.csv>SalmonellaExampleSampleList.csv</a>)
         <ul>
             <li>The samples (SRA experiment IDs in SRA database) you are interested in for building a compendium.</li>
         </ul>
     </li>
-    <li>Gene annotation files of reference genome (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/GCF_000006945.2_ASM694v2> GCF_000006945.2_ASM694v2 </a>)
+    <li>Gene annotation files of reference genome (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/GCF_000006945.2_ASM694v2> GCF_000006945.2_ASM694v2 </a>)
         <ul>
             <li>A gff file contains metadata information including gene names and positions of all chromosome and plasmid.</li>
             <li>The pipeline will fetch all corresponded sequence from NCBI database using this metadata.</li>
@@ -17,31 +17,31 @@ There are some necessary files for compendium building and supervised validation
     </li>
     <li>Supervised validation (correlation validation files):
         <ul>
-            <li>Samples-studies-conditions mapping table (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Samples_studies_conditions_mappingtable.csv>Samples_studies_conditions_mappingtable.csv</a>)</li>
+            <li>Samples-studies-conditions mapping table (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Samples_studies_conditions_mappingtable.csv>Samples_studies_conditions_mappingtable.csv</a>)</li>
         </ul>
     </li>
     <li>Supervised validation (knowledge capture validation) files:
         <ol>
             <li>fur gene mutant vs wildtype
                 <ul>
-                    <li>Selected sample list (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur.csv>Input_KnowledgeCapture_fur.csv</a>) </li>
-                    <li>Selected gene list (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Input_KnowledgeCapture_fur_related_genes.csv</a>) </li>
+                    <li>Selected sample list (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur.csv>Input_KnowledgeCapture_fur.csv</a>) </li>
+                    <li>Selected gene list (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>Input_KnowledgeCapture_fur_related_genes.csv</a>) </li>
                 </ul>
             </li>
             <li>hfq gene mutant vs wildtype
                 <ul>
-                    <li>Selected sample list (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_hfq.csv>Input_KnowledgeCapture_hfq.csv</a>) </li>
-                    <li>Selected gene list (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_hfq_related_genes.csv>Input_KnowledgeCapture_hfq_related_genes.csv</a>) </li>
+                    <li>Selected sample list (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_hfq.csv>Input_KnowledgeCapture_hfq.csv</a>) </li>
+                    <li>Selected gene list (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_hfq_related_genes.csv>Input_KnowledgeCapture_hfq_related_genes.csv</a>) </li>
                 </ul>
             </li>
         </ol>
     </li>
     <li>Supervised validation (published data comparison) files:
         <ul>
-            <li><a href=https://www.sciencedirect.com/science/article/pii/S1931312813004113">Reference compendium for comparison.</a>
+            <li><a href=https://www.sciencedirect.com/science/article/pii/S1931312813004113>Reference compendium for comparison.</a>
                 <ul>
-                    <li>Original dataset (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SampleTable_GoldenStandard.csv>SampleTable_GoldenStandard.csv</a>) </li>
-                    <li>Format refined dataset (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SampleTable_STM_GoldenStandard.csv>SampleTable_STM_GoldenStandard.csv</a>) </li>
+                    <li>Original dataset (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/SampleTable_GoldenStandard.csv>SampleTable_GoldenStandard.csv</a>) </li>
+                    <li>Format refined dataset (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/SampleTable_STM_GoldenStandard.csv>SampleTable_STM_GoldenStandard.csv</a>) </li>
                 </ul>
             </li>
         </ul>
@@ -49,10 +49,10 @@ There are some necessary files for compendium building and supervised validation
 </ol>
 
 ## 0. Installation
-Please make sure you have installed all the packages, software and set the environment variables correctly. (<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/tree/master>Please refer the main description.</a>)
+Please make sure you have installed all the packages, software and set the environment variables correctly. (<a href=https://github.com/IBPA/OCB/tree/master>Please refer the main description.</a>)
 
 ## 1. Parameters configurations (t_utilities/t_parameters.py)
-This step shows you how to modify some important variables which is necessary for building and validating a compendium. To configure the parameters, please open the parameter setting file. (<a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TranscriptomicPipelines/t_utilities/t_parameters.py>t_utilities/t_parameters.py</a>)
+This step shows you how to modify some important variables which is necessary for building and validating a compendium. To configure the parameters, please open the parameter setting file. (<a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/t_utilities/t_parameters.py>t_utilities/t_parameters.py</a>)
 <br>There are two classes: 
 <ul>
     <li>TranscriptomicConstants: It records the constants, especially some option strings inside the pipeline.</li>
@@ -209,7 +209,7 @@ python build_compendium_script.py SalmonellaExampleSampleList.csv GCF_000006945.
 
 It will takes three to four days to download, align, count the gene expressions, merge profiles into one table and normalize it. (Depends on your parallel configuration)
 <br>
-<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/SalmonellaExample.tar.gz>The example compendium output can be downloaded here. (Intermediate files are removed)</a>
+<a href = https://github.com/IBPA/OCB/blob/master/SalmonellaExample.tar.gz>The example compendium output can be downloaded here. (Intermediate files are removed)</a>
 
 
 ## 3. Validation
@@ -221,14 +221,14 @@ To evaluate a benchmark of this compendium, just run the following command:
 python unsupervised_validation_script.py SalmonellaExample
 ```
 
-It will report a benchmark and generate unsupervised validation results (Please refer <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/VALIDATION.md>validation description</a>).
+It will report a benchmark and generate unsupervised validation results (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
 ### 3.2 Supervised validation -- correlation validation
 
 #### 3.2.1 Creating a samples-studies-conditions mapping table
 You have to manually curate the metadata to create a sample-studies-conditions mapping table.
 <br>
-For this <a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Samples_studies_conditions_mappingtable.csv>example sample-studies-conditions mapping table file</a>, it contains 64 samples from 3 different studies or 40 different conditions.
+For this <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Samples_studies_conditions_mappingtable.csv>example sample-studies-conditions mapping table file</a>, it contains 64 samples from 3 different studies or 40 different conditions.
 
 #### 3.2.2 Run the correlation validation script
 Once you prepare the mapping table, run the following command:
@@ -237,19 +237,19 @@ Once you prepare the mapping table, run the following command:
 python supervised_validation_corr_script.py SalmonellaExample Samples_studies_conditions_mappingtable.csv
 ```
 
-It will generate correlation validation results. (Please refer <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/VALIDATION.md>validation description</a>).
+It will generate correlation validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
 ### 3.3 Supervised validation -- knowledge capture validation
 
 #### 3.3.1 Creating a sample selection file
 You have to manually curate the metadata to create a sample selection file.
 <br>
-For <a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur.csv>fur mutant example</a>, you have to check the metadata and find that two samples (SRX1638996, SRX1638997) are wildtype, and another sample (SRX1638999) is fur mutant.
+For <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur.csv>fur mutant example</a>, you have to check the metadata and find that two samples (SRX1638996, SRX1638997) are wildtype, and another sample (SRX1638999) is fur mutant.
 
 #### 3.3.2 Creating a gene selection file
 You have to survey the published researches to find a gene set which will be regulated by specific stress/mutant and then create a gene selection file
 <br>
-For <a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>fur regulated gene example</a>, you have to find the <a href=https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5001712/>genes regulated by fur</a>: flagellar genes (activated), SPI1 genes (activated) and SPI2 genes (repressed). In addition, you have to perform necessary gene name conversion to make sure the gene names exist in the compendium.
+For <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeCapture_fur_related_genes.csv>fur regulated gene example</a>, you have to find the <a href=https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5001712/>genes regulated by fur</a>: flagellar genes (activated), SPI1 genes (activated) and SPI2 genes (repressed). In addition, you have to perform necessary gene name conversion to make sure the gene names exist in the compendium.
 
 #### 3.3.3. Run the knowledge capture validation script
 Once you prepare both sample selection table and gene selection table, run the following command:
@@ -257,7 +257,7 @@ Once you prepare both sample selection table and gene selection table, run the f
 ```
 python supervised_validation_knowledge_capture_script.py  SalmonellaExample Input_KnowledgeCapture_fur.csv Input_KnowledgeCapture_fur_related_genes.csv
 ```
-It will generate knowledge capture validation results. (Please refer <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/VALIDATION.md>validation description</a>).
+It will generate knowledge capture validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
 ### 3.4 Supervised validation -- published data comparison
 
@@ -277,8 +277,8 @@ There are three additional steps after you find a reference compendium:
 <br>
 You can compare the format before and after data format conversion:
 <ul>
-    <li>Original dataset (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SampleTable_GoldenStandard.csv>SampleTable_GoldenStandard.csv</a>) </li>
-    <li>Format refined dataset (<a href = https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/TestFiles/SampleTable_STM_GoldenStandard.csv>SampleTable_STM_GoldenStandard.csv</a>) </li>
+    <li>Original dataset (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/SampleTable_GoldenStandard.csv>SampleTable_GoldenStandard.csv</a>) </li>
+    <li>Format refined dataset (<a href = https://github.com/IBPA/OCB/tree/master/TestFiles/SampleTable_STM_GoldenStandard.csv>SampleTable_STM_GoldenStandard.csv</a>) </li>
 </ul>
 
 #### 3.4.2 Run the published data comparison script
@@ -288,4 +288,4 @@ Once you have well-formatted reference compendium, you can run the following com
 python supervised_validation_published_data_comparison_script.py  SalmonellaExample SampleTable_STM_GoldenStandard.csv
 ```
 
-It will generate published data comparison results. (Please refer <a href=https://github.com/bigghost2054/Omics-Compendium-Builder-OCB/blob/master/VALIDATION.md>validation description</a>).
+It will generate published data comparison results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
