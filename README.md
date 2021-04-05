@@ -30,8 +30,9 @@ bowtie==2.3.4
 You can use the following official links to download the software with specified version:
 - <a href="https://www.python.org/downloads/release/python-369/">Python 3.6.9</a>
 - <a href="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.8/">SRA toolkits 2.10.8</a>
-- <a href="https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/>Bowtie2.3.4</a>
+- <a href="https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/">Bowtie2.3.4</a>
 
+After you 
 
 ### Packages
 
