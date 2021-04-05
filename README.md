@@ -27,6 +27,12 @@ sra-tools==2.10.8
 bowtie==2.3.4
 ```
 
+You can use the following official links to download the software with specified version:
+- [Python 3.6.9] (https://www.python.org/downloads/release/python-369/)
+- [SRA toolkits 2.10.8] (https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.8/)
+- [Bowtie2.3.4] (https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/)
+
+
 ### Packages
 
 Make sure to install the following Python packages.

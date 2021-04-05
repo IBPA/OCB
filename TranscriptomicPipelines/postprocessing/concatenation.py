@@ -64,7 +64,6 @@ class Concatenation(p_module_template.PostprocessingSubModule):
                 metadata_table_list.append(cur_metadata_table)
             data_matrix_list.append(cur_data_matrix)
             
-        print(metadata_table_list)
         merged_metadata_table = pd.concat(metadata_table_list)
         merged_data_matrix = pd.concat(data_matrix_list, axis = 1)
         

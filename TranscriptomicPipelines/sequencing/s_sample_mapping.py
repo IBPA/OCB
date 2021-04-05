@@ -128,7 +128,6 @@ class SequencingSampleMapping(s_module_template.SequencingSubModule):
         self.workers = {}
         
         self.configure_parameter_set()
-        print(self.parallel_parameters.pyscripts)
         
     def do_sample_mapping(self):
         #Parallel (exp level)
@@ -298,8 +297,6 @@ class SequencingSampleMapping(s_module_template.SequencingSubModule):
                     command = parallel_engine.get_command_sbatch(job_name)
                     commands.append(command)
                     workers.append(self.workers[exp])
-                    print(local_command)
-                    print(command)
                     
                     result_path_list.append(self.get_worker_results_file(exp))
                     job_name_list.append(job_name)
@@ -410,8 +407,6 @@ class SequencingSampleMappingWorker:
             
             self.results.update_mapping_experiment_runs_after_merge(self.exp, [run])
             self.results.update_merged_count_reads_result(self.exp, merged_count_reads_result)
-            print(merged_count_reads_result.shape)
-            print(self.exp + '(Normal)')
 
         else:
             count_reads_results_exp = []
@@ -420,15 +415,11 @@ class SequencingSampleMappingWorker:
             
             
             concat_count_reads_results_exp = pd.concat(count_reads_results_exp, axis = 1)
-            print(concat_count_reads_results_exp.shape)
             mean_concat_count_reads_results_exp = concat_count_reads_results_exp.mean(axis = 1)
-            print(mean_concat_count_reads_results_exp.shape)
             mean_concat_count_reads_results_exp.columns = [self.exp]
             merged_count_reads_result = mean_concat_count_reads_results_exp
             
             self.results.update_mapping_experiment_runs_after_merge(self.exp, self.mapping_experiment_runs[self.exp])
             self.results.update_merged_count_reads_result(self.exp, merged_count_reads_result)
     
-            print(merged_count_reads_result.shape)
-            print(self.exp + '(Mean)')
             

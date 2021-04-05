@@ -27,7 +27,6 @@ class ValidationPipeline(v_module_template.ValidationModule):
         
     def run_validation_pipeline(self, input_corr_path = None, input_knowledge_capture_groupping_path = None, input_knowledge_capture_gene_list_path = None):
         self.unsupervised_validation.validate_data()
-        print(input_corr_path)
         if input_corr_path:
             self.supervised_validation.correlation_validation(input_corr_path)
             
