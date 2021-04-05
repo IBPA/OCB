@@ -32,6 +32,7 @@ After the script finish the installation, please follow the instuction to add th
 ### Software
 
 Make sure the following softwares are installed. The following version has been tested. 
+
 Generally, it is good to use newer version even though it is not tested, but there will be some issues if older version is used.
 ```
 python==3.6.8
@@ -43,6 +44,7 @@ You can use the following official links to download the software with specified
 - <a href="https://www.python.org/downloads/release/python-369/">Python 3.6.9</a>
 - <a href="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.8/">SRA toolkits 2.10.8</a>
 - <a href="https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/">Bowtie2.3.4</a>
+
 Then set the PATH variable so that you can call the executable everywhere.
 
 The SRA toolkits may need additional configuration. You can run the following command to check the configuration:
@@ -58,6 +60,7 @@ vdb-config -i
 ### Packages
 
 Make sure to install the following Python packages.
+
 Generally it is good to use the newer packages except scikit-learn package.
 ```
 biopython==1.74
