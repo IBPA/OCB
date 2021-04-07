@@ -296,12 +296,10 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         val_0 = np.mean(matrix[:,exp_indice_0],axis=1)
         val_1 = np.mean(matrix[:,exp_indice_1],axis=1)
 
-        print(min(val_1))
-        print(min(val_0))
         if (min(val_1) < 0):
-            raise("!")
+            raise("Error: Gene expression level < 0 for case 0 (Control)")
         if (min(val_0) < 0):
-            raise("!!")
+            raise("Error: Gene expression level < 0 for case 1 (Case)")
         
         fc = np.absolute(np.log((val_1+1e-5)/(val_0+1e-5))) #To Avoid nan
         ranking = len(fc) - fc.argsort().argsort()

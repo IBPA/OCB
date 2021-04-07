@@ -53,7 +53,6 @@ class TranscriptomeCompendiumCollections:
         return self.merged_metadata_table
         
     def get_merged_metadata_series(self):
-        print(TranscriptomeCompendiumConst.METADATA_SERIES_COLUMN.value)
         return self.merged_metadata_table[TranscriptomeCompendiumConst.METADATA_SERIES_COLUMN.value]
         
     def output_merged_metadata_table(self):

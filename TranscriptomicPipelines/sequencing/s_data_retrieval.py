@@ -84,11 +84,10 @@ class SequencingRetrieval(s_module_template.SequencingSubModule):
         self.configure_parameter_set(general_parameters = self.get_general_parameters())
         
     def do_retrieve(self, platform_id_remove = [], series_id_remove = [], experiment_id_remove = [], run_id_remove = []):
-        print("metadata download")
+        print("Downloading metadata...")
         self.download_metadata()
-        print("complete metadata")
+        print("Metadata download complete.")
         self.complete_data_independent_metadata()
-        print("filter")
         self.filter_entry(platform_id_remove, series_id_remove, experiment_id_remove, run_id_remove)
         
         
@@ -122,11 +121,6 @@ class SequencingRetrieval(s_module_template.SequencingSubModule):
             df_list = []
             id_list = []
             for id in self.get_s_query_id():
-                print(Entrez.email)           
-                print(id)
-                print(SequencingRetrievalConstant.SRADB.value)
-                print(SequencingRetrievalConstant.RUNINFO.value)
-                print(SequencingRetrievalConstant.TEXT.value)
                 id_list.append(id)
 
                 if (len(id_list) > 100):
@@ -169,7 +163,6 @@ class SequencingRetrieval(s_module_template.SequencingSubModule):
             genome_id = self.get_t_gene_annotation().get_genome_id()
             with open(self.parameters.fasta_path, SequencingRetrievalConstant.WRITEMODE.value) as outfile:
                 for id in genome_id:
-                    print(id)
                     handle = Entrez.efetch( id = id,
                                             db = SequencingRetrievalConstant.NUCLEOTIDEDB.value,
                                             rettype = SequencingRetrievalConstant.FASTA.value,
@@ -234,15 +227,7 @@ class SequencingRetrieval(s_module_template.SequencingSubModule):
         self.results.update_mapping_experiment_runs(self.mapping_experiment_runs)
         self.results.update_mapping_experiment_runs_removed(self.mapping_experiment_runs_removed)
         
-        #For Testing
-        for exp in metadata.entries:
-            print(exp)
-            
-        for exp in metadata.entries_removed:
-            print(exp + '(removed)')
-            
         #Update sra information after remove the runs/experiment
-        print(self.sra_run_info)
         df_list = []
         for exp in self.mapping_experiment_runs:
             for run in self.mapping_experiment_runs[exp]:

@@ -94,16 +94,6 @@ class GeneAnnotation:
                 self.gff3_data = pd.concat([self.gff3_data,cur_data],ignore_index = True)
 
     def parse_attributes(self):
-        #try:
-        '''
-        attributes = pd.DataFrame("", index = self.gff3_data.index, columns = [e.name for e in GFF3AttributesHeader])
-        
-        for index, row in self.gff3_data.iterrows():
-            print(row)
-            extracted_fields = self.parse_fields(row[GFF3Header.ATTRIBUTES.name],[e.value for e in GFF3AttributesHeader])
-            for e in GFF3AttributesHeader:
-                attributes[e.name][index] = extracted_fields[e.value]
-        '''
         
         attributes = self.gff3_data[GFF3Header.ATTRIBUTES.name].apply(self.parse_fields_apply, args = ([e.value for e in GFF3AttributesHeader],))
         attributes = attributes.str.split(GFF3Symbol.ATTRIBUTESEPERATOR.value,expand=True)
@@ -152,10 +142,6 @@ class GeneAnnotation:
             raise t_gff_exceptions.InvalidIDSelectionInGFFFile('You selected a field as an ID, but this field is not annotated in GFF3 attributes')
             
         idx = possible_id_values.index(self.used_id)
-        print(self.gff3_data_target_type)
-        print(possible_id_names[idx])
-        print(self.gff3_data_target_type[possible_id_names[idx]])
-        print(self.gff3_data_target_type.index)
         for index, row in self.gff3_data_target_type.iterrows(): 
             if self.gff3_data_target_type[possible_id_names[idx]][index] == "":
                 raise t_gff_exceptions.InvalidIDSelectionInGFFFile('You selected a field as an ID, but this field have some empty values for some entries')

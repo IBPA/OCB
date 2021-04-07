@@ -78,8 +78,7 @@ class TranscriptomicDataPreparationPipeline:
         #metadata will be initialized here and it will shared by ALL COMPONENT in this pipeline
         #Initialize the gene annotation table:
         self.t_gene_annotation = t_gff.GeneAnnotation(gff_path)
-        print("read gff")
-        print(gff_path)
+        print("Reading gene annotation (gff) file...")
         try:
             self.t_gene_annotation.read_file()
         except:
@@ -90,7 +89,7 @@ class TranscriptomicDataPreparationPipeline:
             self.t_gene_annotation.gene_name_id = t_gff.GFF3AttributesHeader.NAME.value
             self.t_gene_annotation.read_file()
             
-        print("read gff: done")
+        print("Read gene annotation file (gff) file: OK")
         self.t_compendium_collections = t_compendium.TranscriptomeCompendiumCollections()
         
         #Parallel Engine

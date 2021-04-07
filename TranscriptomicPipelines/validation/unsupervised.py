@@ -98,70 +98,8 @@ class UnsupervisedValidation(v_module_template.ValidationSubModule):
             normalized_data_matrix = t_compendium_collections.get_normalized_data_matrix()
 
             self.validate_data_from_data_matrix(normalized_data_matrix)
-            '''
 
-            normalized_data_matrix_nparray = np.array(normalized_data_matrix)
-            #scaler = MinMaxScaler()
-            #scaler.fit(normalized_data_matrix_nparray)
-            #minmax_normalized_data_matrix_nparray = scaler.transform(normalized_data_matrix_nparray)
-
-            results = np.zeros((len(self.parameters.noise_ratio), len(self.parameters.missing_value_ratio)))
-
-            for i in range(self.parameters.n_trial):
-                print("Trial : " + str(i))
-                cur_results = np.zeros((len(self.parameters.noise_ratio), len(self.parameters.missing_value_ratio)))
-                noise = self.get_noise(normalized_data_matrix_nparray)
-
-                for j in range(len(self.parameters.noise_ratio)):
-                    noise_ratio = self.parameters.noise_ratio[j]
-                    cur_matrix = noise*noise_ratio + normalized_data_matrix_nparray*(1-noise_ratio)
-                    for k in range(len(self.parameters.missing_value_ratio)):
-                        print("k: " + str(k) + "/" + str(len(self.parameters.missing_value_ratio)))
-                        missing_value_ratio = self.parameters.missing_value_ratio[k]
-                        missing_value_index = []
-                        cur_matrix_missing = np.copy(cur_matrix)
-                        n_missing_value_each_col = np.round(missing_value_ratio*cur_matrix.shape[0]).astype(int)
-                        start = time.time()
-                        for colidx in range(cur_matrix.shape[1]):
-                            cur_misi = np.random.choice(cur_matrix.shape[0],n_missing_value_each_col,replace = False)
-                            cur_matrix_missing[cur_misi,colidx] = np.nan
-                            missing_value_index.append(cur_misi)
-                        end = time.time()
-                        print("Generating missing values:" + str(end - start))
-
-                        start = time.time()
-                        print("Do Impute!")
-                        imputed_cur_matrix = self.do_impute(cur_matrix_missing)
-                        print("End Impute!")
-                        end = time.time()
-                        print("Imputation:" + str(end - start))
-
-                        start = time.time()
-                        correct_values = []
-                        imputed_values = []
-                        for colidx in range(cur_matrix.shape[1]):
-                            correct_values.extend(cur_matrix[missing_value_index[colidx],colidx].tolist())
-                            imputed_values.extend(imputed_cur_matrix[missing_value_index[colidx],colidx].tolist())
-
-                        imputed_values = np.array(imputed_values)+1e-6
-                        correct_values = np.array(correct_values)+1e-6
-                        if j == 0 and k == 0:
-                            np.savetxt('imputed_values_'+str(j)+'_'+str(k)+'.csv',imputed_values, delimiter=',')
-                            np.savetxt('correct_values_'+str(j)+'_'+str(k)+'.csv',correct_values, delimiter=',')
-                        cur_results[j,k] = np.mean(np.abs(imputed_values - correct_values+0.0)/(np.abs(imputed_values+0.0) + np.abs(correct_values+0.0)))*100
-                        end = time.time()
-                        print("Calculating Error:" + str(end - start))
-
-                results = results + cur_results
-
-            results = results/self.parameters.n_trial
-
-            results = pd.DataFrame(results, index = self.parameters.noise_ratio.tolist(), columns = self.parameters.missing_value_ratio.tolist())
-            results.to_csv(self.parameters.unsupervised_validation_results_path)
-            '''
-
-        results = pd.read_csv(
-            self.parameters.unsupervised_validation_results_path, index_col=0)
+        results = pd.read_csv(self.parameters.unsupervised_validation_results_path, index_col = 0)
         results.columns.name = 'missing value ratio'
         fig = plt.figure()
         unsupervised_plot = results.plot(
@@ -211,20 +149,14 @@ class UnsupervisedValidation(v_module_template.ValidationSubModule):
 
     def calculate_benchmark(self, result):
         if 0.5 not in result.columns and '0.5' not in result.columns:
-            print(result.columns)
-            raise Exception(
-                'Result of missing value ratio = 0.5 should be provided to calculate a benchmark!')
-
+            raise Exception('Result of missing value ratio = 0.5 should be provided to calculate a benchmark!')
+        
         noise_ratios = result.index.to_series()
         final_area = 0
         for i in range(result.shape[0]):
             if i > 0:
-                final_area += (result['0.5'].iloc[i] + result['0.5'].iloc[i - 1]) * (
-                    noise_ratios.iloc[i] - noise_ratios.iloc[i - 1]) / 2
-                print(result['0.5'].iloc[i] + result['0.5'].iloc[i - 1])
-                print('---')
-                print(noise_ratios.iloc[i] - noise_ratios.iloc[i - 1])
-
+                final_area += (result['0.5'].iloc[i] + result['0.5'].iloc[i-1])*(noise_ratios.iloc[i] - noise_ratios.iloc[i-1])/2
+                
         return 100 - final_area
 
     def validate_data_from_data_matrix(self, data_matrix,
@@ -281,8 +213,8 @@ class UnsupervisedValidation(v_module_template.ValidationSubModule):
                     imputed_cur_matrix = self.do_impute(cur_matrix_missing)
                     print("End Impute!")
                     end = time.time()
-                    print("Imputation:" + str(end - start))
-
+                    print("Imputation time comsumption(sec):" + str(end - start))
+                    
                     start = time.time()
                     correct_values = []
                     imputed_values = []

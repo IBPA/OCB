@@ -17,19 +17,51 @@ git clone https://github.com/IBPA/OCB.git
 
 ## Dependencies
 
-<!-- TODO after CHengEn's setup script is done. -->
+For Ubuntu users, there is the script to install software and Python packages once you have installed Python3.6 and <a herf="https://pypi.org/project/pip/">pip</a> packages:
+- [`install.bash (Ubuntu Only)`](./install.bash)
+
+Adjust the file access mode if you cannot run the script, for example:
+```
+chmod 755 install.bash
+./install.bash
+```
+
+After the script finish the installation, please follow the instuction to add the installation path to PATH variable.
+
+
 ### Software
 
-Make sure the following softwares are installed.
+Make sure the following softwares are installed. The following version has been tested. 
+
+Generally, it is good to use newer version even though it is not tested, but there will be some issues if older version is used.
 ```
-python==3.6
+python==3.6.8
 sra-tools==2.10.8
 bowtie==2.3.4
+```
+
+You can use the following official links to download the software with specified version:
+- <a href="https://www.python.org/downloads/release/python-369/">Python 3.6.9</a>
+- <a href="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.8/">SRA toolkits 2.10.8</a>
+- <a href="https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/">Bowtie2.3.4</a>
+
+Then set the PATH variable so that you can call the executable everywhere.
+
+The SRA toolkits may need additional configuration. You can run the following command to check the configuration:
+```
+prefetch --version
+```
+
+Run the following command, edit and save the configuration if you cannot see the version:
+```
+vdb-config -i
 ```
 
 ### Packages
 
 Make sure to install the following Python packages.
+
+Generally it is good to use the newer packages except scikit-learn package.
 ```
 biopython==1.74
 pandas==0.25

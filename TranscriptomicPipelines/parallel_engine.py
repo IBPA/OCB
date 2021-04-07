@@ -175,11 +175,24 @@ class ParallelEngine:
 
         running_idx = [-1]*self.parameters.n_jobs_slurm
         next_entry_idx = 0
+        count = 0
+        processed = 0
         
         while True:
             finish = True
             time.sleep(1)
-            print(running_idx)
+            print("Processing: " + str(processed) + " done/" + str(len(command_list)) + " total ", end="")
+            for i in range(5):
+                if (i < count):
+                    print(".", end="")
+                else:
+                    print(" ", end="")
+            count = count + 1
+            if (count >= 5):
+                count = 0
+            print("",end="\r")
+            
+            
             for i in range(self.parameters.n_jobs_slurm):
                 if running_idx[i] != -1:
                     cur_job_name = job_name_list[running_idx[i]]
@@ -198,12 +211,12 @@ class ParallelEngine:
                             else:
                                 #Complete
                                 print("FINISHED! : " + cur_job_name)
+                                processed = processed + 1
                                 
                                 
                         except Exception as e:
                             #Failed: No File
                             print("FAILED (No Result):" + cur_job_name)
-                            print(query_result)
                             #raise Exception
                         running_idx[i] = -1
                         #worker_list[running_idx[i]].clean_intermediate_files_independent(force = True) #Comment it for testing
@@ -217,10 +230,8 @@ class ParallelEngine:
                     cur_job_name = job_name_list[running_idx[i]]
                     retry_idx = 0
                     retry_num = 10
-                    print(command_list[next_entry_idx])
                     while True:
                         query_result = subprocess.check_output(['squeue',slurm_parameters.queue_par_job_name,cur_job_name,slurm_parameters.queue_par_noheader])
-                        print(query_result)
                         if len(query_result) > 0:
                             break
                         time.sleep(1)
@@ -229,7 +240,6 @@ class ParallelEngine:
                             print("FAILED (Failed to start):" + cur_job_name)
                     
                     next_entry_idx = next_entry_idx + 1
-                    print('New')
                     finish = False
                     
             if finish == True:

@@ -381,8 +381,6 @@ class SequencingExtraction(s_module_template.SequencingSubModule):
             if parallel_engine.parameters.parallel_mode == parallel_engine.parameters.parallel_option.SLURM.value:
                 local_command = self.get_bowtie2_build_command()
                 command = parallel_engine.get_command_sbatch(SequencingExtractionConstant.JOB_NAME_REFBUILD.value, wait = True)
-                print(local_command)
-                print(command)
                 try:
                     parallel_engine.do_run_slurm_parallel_wait(local_command, command)
                 except:
@@ -393,7 +391,7 @@ class SequencingExtraction(s_module_template.SequencingSubModule):
             
             
         else:
-            print("Skip RefBuild!")
+            print("The reference genome is ready. Skip the bulid procedure.")
         
     def get_bowtie2_build_command(self):
         bowtie2_parameters = self.get_bowtie2_parameters()
@@ -550,7 +548,6 @@ class SequencingExtraction(s_module_template.SequencingSubModule):
             return False
             
         #We have to check the completeness of the results here!
-        print(run)
         if cur_run_results_dict['exception'] is not None:
             os.remove(self.get_worker_results_file(run))
             return False
@@ -627,7 +624,6 @@ class SequencingExtractionWorker:
     def download_data_run_independent(self):
         if self.check_data_independent() == False:
             command = self.get_sratool_prefetch_command()
-            print(command)
             subprocess.call(command, stdout=subprocess.PIPE, shell = self.general_parameters.use_shell)
             if self.check_data_independent() == False:
                 raise s_value_extraction_exceptions.FailedToDownloadSRAFileException('Failed to download this run:' + self.run)
@@ -641,19 +637,13 @@ class SequencingExtractionWorker:
         try:
             binary_result = subprocess.check_output(command, stderr=subprocess.STDOUT, shell = self.general_parameters.use_shell)
         except subprocess.CalledProcessError as e:
-            print('FAILED DURING RUNNING VDB_VALIDATE')
-            print(e)
             return False
         result = binary_result.decode(self.general_constant.CODEC.value)
         result = result.split(SequencingExtractionConstant.SPACE.value)
         result = result[-1].replace(SequencingExtractionConstant.NEWLINE.value,"")
         if result == SequencingExtractionConstant.SRA_RESULT_OK.value:
-            print('GOOD!')
             return True
         else:
-            print('FAILED AFTER RUNNING VDB_VALIDATE!')
-            print(result)
-            print(binary_result)
             return False
         
         
@@ -664,7 +654,6 @@ class SequencingExtractionWorker:
             try:
                 binary_output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell = self.general_parameters.use_shell)
             except Exception as e:
-                print(e)
                 raise s_value_extraction_exceptions.FastqdumpFailedException(' '.join(command) + 'Failed to run fastqdump')
             
             try:
