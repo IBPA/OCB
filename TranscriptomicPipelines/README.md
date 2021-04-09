@@ -204,7 +204,10 @@ You can find a reference genome and download the corresponded gene annotation fi
 Once you get both sample list file (or sra runinfo file) and gene annotation file, you can run the following command to build the compendium. Suppose we use SalmonellaExample as the project name:
 
 ```
-python build_compendium_script.py SalmonellaExampleSampleList.csv GCF_000006945.2_ASM694v2 SalmonellaExample
+python build_compendium_script.py \
+    ../TestFiles/SalmonellaExampleSampleList.csv \
+    ../TestFiles/GCF_000006945.2_ASM694v2 \
+    SalmonellaExample
 ```
 
 It will takes three to four days to download, align, count the gene expressions, merge profiles into one table and normalize it. (Depends on your parallel configuration)
@@ -234,7 +237,9 @@ For this <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Samples_stu
 Once you prepare the mapping table, run the following command:
 
 ```
-python supervised_validation_corr_script.py SalmonellaExample Samples_studies_conditions_mappingtable.csv
+python supervised_validation_corr_script.py \
+    SalmonellaExample \
+    ../TestFiles/Samples_studies_conditions_mappingtable.csv
 ```
 
 It will generate correlation validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
@@ -255,7 +260,10 @@ For <a href = https://github.com/IBPA/OCB/tree/master/TestFiles/Input_KnowledgeC
 Once you prepare both sample selection table and gene selection table, run the following command:
 
 ```
-python supervised_validation_knowledge_capture_script.py  SalmonellaExample Input_KnowledgeCapture_fur.csv Input_KnowledgeCapture_fur_related_genes.csv
+python supervised_validation_knowledge_capture_script.py \
+    SalmonellaExample \
+    ../TestFiles/Input_KnowledgeCapture_fur.csv \
+    ../TestFiles/Input_KnowledgeCapture_fur_related_genes.csv
 ```
 It will generate knowledge capture validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
@@ -285,7 +293,9 @@ You can compare the format before and after data format conversion:
 Once you have well-formatted reference compendium, you can run the following command:
 
 ```
-python supervised_validation_published_data_comparison_script.py  SalmonellaExample SampleTable_STM_GoldenStandard.csv
+python supervised_validation_published_data_comparison_script.py \
+    SalmonellaExample \
+    ../TestFiles/SampleTable_STM_GoldenStandard.csv
 ```
 
 It will generate published data comparison results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
