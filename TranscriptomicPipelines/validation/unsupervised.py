@@ -181,7 +181,7 @@ class UnsupervisedValidation(v_module_template.ValidationSubModule):
         self.check_noise_ratio()
 
         for i in range(self.parameters.n_trial):
-            print("Trial : " + str(i))
+            print("Adding noise (permuted data), Trial : " + str(i))
             cur_results = np.zeros(
                 (len(self.parameters.noise_ratio), len(self.parameters.missing_value_ratio)))
             noise = self.get_noise(data_matrix_nparray)

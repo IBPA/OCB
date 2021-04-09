@@ -81,7 +81,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
                                                                                 input_corr)
         
         for i in range(self.parameters.n_trial):
-            print("Trial : " + str(i))
+            print("Evaluating correlation after adding noise (Permuted data), Trial : " + str(i))
             cur_results = np.zeros((len(self.parameters.noise_ratio), len(target_curve_name)))
             noise = self.get_noise(normalized_data_matrix_nparray)
             
@@ -244,7 +244,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         
         ranking_noise = np.zeros((len(gene_indice)+1, len(self.parameters.noise_ratio)))
         for i in range(self.parameters.n_trial):
-            print("Trial : " + str(i))
+            print("Evaluating ranking after adding noise (Permuted data), Trial : " + str(i))
             cur_ranking_noise = np.zeros((len(gene_indice)+1, len(self.parameters.noise_ratio)))
             noise = self.get_noise(normalized_data_matrix_nparray)
             
@@ -280,11 +280,11 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
             if col != "ref":
                 p_val_kstest = stats.kstest( (final_results[col]+0.0)/len(data_matrix_gene_name), 'uniform', alternative='greater' )[1]
                 p_val_kstest = np.format_float_scientific(p_val_kstest,trim='0',exp_digits=2,precision=3)
-                ax.plot(final_results[col],final_results.index,linewidth=1,label=str(col) + ", p-val = " + str(p_val_kstest))
-                ax.legend(loc='bottom right')
+                ax.plot(final_results[col],final_results.index.to_numpy(),linewidth=1,label=str(col) + ", p-val = " + str(p_val_kstest))
+                ax.legend(loc='lower right')
             else:
-                ax.plot(final_results[col],final_results.index,'k--',linewidth=3,label="(control)")
-                ax.legend(loc='bottom right',title="noise ratio")
+                ax.plot(final_results[col],final_results.index.to_numpy(),'k--',linewidth=3,label="(control)")
+                ax.legend(loc='lower right',title="noise ratio")
 
         plt.savefig(self.parameters.knowledge_capture_validation_results_figure_path,bbox_inches='tight', pad_inches=0)
         plt.close(fig)
