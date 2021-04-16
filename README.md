@@ -35,7 +35,7 @@ Make sure the following softwares are installed. The following version has been 
 
 Generally, it is good to use newer version even though it is not tested, but there will be some issues if older version is used.
 ```
-python==3.6.8
+python==3.6.9
 sra-tools==2.10.8
 bowtie==2.3.4
 ```
