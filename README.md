@@ -81,7 +81,7 @@ The pipeline consists of two components: Compendium construction and validation.
 #### Input
 
 In order to build a compendium, the script needs three input arguments:
-- The path to a sample list file ([Example](./TestFiles/SalmonellaExampleSampleList.csv))
+- The path to a sample list file ([Example](./TestFiles/SalmonellaExampleSampleList.csv), [Simple Example](./TestFiles/SimpleSalmonellaSampleList.csv))
 - The path to a gene annotation file.
 - An output compendium name.
 
@@ -91,8 +91,19 @@ This script will generate a directory with specified compendium name and many fi
 - Normalized data matrix: A CSV table that contains normalized gene expression profiles of all samples. Each row represents different genes and each column represents different samples. The output is stored in '($compendium_name)_NormalizedDataMatrix.csv'.
 - Compendium in binary format: A python object that contains the normalized gene expression table and the recorded parameters. It can be used for optional validation. The output is stored in '($compendium_name)_projectfile.bin'.
 
-
 #### Example
+This example demostrate the simple compendium construction. It can be finished less than 5 minutes using a laptop with correct configuration (NOTE: This compendium is just for demo which allow users to view the format of output files, but cannot be validated due to limited sample number and sample size) 
+```
+cd TranscriptomicPipelines
+python build_compendium_script.py \
+    ../TestFiles/SimpleSalmonellaSampleList.csv \
+    ../TestFiles/GCF_000006945.2_ASM694v2 \
+    SimpleSalmonellaExample
+```
+
+
+#### Example (Will be time consuming)
+This example process most of the Salmonella RNA-seq samples available in SRA. The compendium can be validated with four different approches (see the next part), but the compendium construction will be time consuming, which takes about one week if you process eight samples in parallel in cluster. To try the validation processes, please use this [processed compendium] (./SalmonellaExample.tar.gz).
 ```
 cd TranscriptomicPipelines
 python build_compendium_script.py \
