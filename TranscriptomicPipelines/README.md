@@ -1,5 +1,6 @@
 # Step-by-step example
 <h4>This example provides a step-by-step example to make a Salmonella example compendium.</h4>
+<h4>The validation part can evaluate the compendium from other pipelines such as <a href = https://github.com/bcbio/bcbio-nextgen>bcbio</a>. To generate the sample example compendium using bcbio, please refer <a href="https://github.com/IBPA/OCB/tree/master/TranscriptomicPipelines/Bcbio_Readme.md">this tutorial</a>.
 
 ## Necessary files in this example:
 There are some necessary files for compendium building and supervised validation.
@@ -223,6 +224,10 @@ To evaluate a benchmark of this compendium, just run the following command:
 ```
 python unsupervised_validation_script.py SalmonellaExample
 ```
+If you want to evaluate the compendium from bcbio or other pipelines, run the following command with specified input gene expression table and output file path:
+```
+python unsupervised_validation_script_csv_input.py gene_expression_table.csv output_table.csv output_chart.png
+```
 
 It will report a benchmark and generate unsupervised validation results (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
@@ -240,6 +245,14 @@ Once you prepare the mapping table, run the following command:
 python supervised_validation_corr_script.py \
     SalmonellaExample \
     ../TestFiles/Samples_studies_conditions_mappingtable.csv
+```
+If you want to evaluate the compendium from bcbio or other pipelines, run the following command with specified input gene expression table and output file path:
+```
+python supervised_validation_corr_script_csv_input.py \
+    gene_expression_table.csv \
+    ../TestFiles/Samples_studies_conditions_mappingtable.csv \
+    output_table.csv \
+    output_chart.png
 ```
 
 It will generate correlation validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
@@ -265,6 +278,16 @@ python supervised_validation_knowledge_capture_script.py \
     ../TestFiles/Input_KnowledgeCapture_fur.csv \
     ../TestFiles/Input_KnowledgeCapture_fur_related_genes.csv
 ```
+If you want to evaluate the compendium from bcbio or other pipelines, run the following command with specified input gene expression table and output file path:
+```
+python supervised_validation_knowledge_capture_script_csv_input.py \
+    gene_expression_table.csv \
+    ../TestFiles/Input_KnowledgeCapture_fur.csv \
+    ../TestFiles/Input_KnowledgeCapture_fur_related_genes.csv \
+    output_table.csv \
+    output_chart.png
+```
+
 It will generate knowledge capture validation results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).
 
 ### 3.4 Supervised validation -- published data comparison
@@ -296,6 +319,14 @@ Once you have well-formatted reference compendium, you can run the following com
 python supervised_validation_published_data_comparison_script.py \
     SalmonellaExample \
     ../TestFiles/SampleTable_STM_GoldenStandard.csv
+```
+If you want to evaluate the compendium from bcbio or other pipelines, run the following command with specified input gene expression table and output file path:
+```
+python supervised_validation_published_data_comparison_script_csv_input.py \
+    gene_expression_table.csv \
+    ../TestFiles/SampleTable_STM_GoldenStandard.csv \
+    output_table.csv \
+    output_chart.png
 ```
 
 It will generate published data comparison results. (Please refer <a href=https://github.com/IBPA/OCB/blob/master/TranscriptomicPipelines/VALIDATION.md>validation description</a>).

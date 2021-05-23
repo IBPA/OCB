@@ -64,20 +64,27 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         self.parameters.knowledge_capture_validation_results_figure_path   = parameter_set.v_supervised_parameters_knowledge_capture_validation_results_figure_path
         self.parameters.published_data_comparison_results_figure_path      = parameter_set.v_supervised_parameters_published_data_comparison_results_figure_path
 
-        
     def correlation_validation(self, input_corr_path):
-        input_corr = pd.read_csv(input_corr_path)
         t_compendium_collections = self.get_t_compendium_collections()
         normalized_data_matrix = t_compendium_collections.get_normalized_data_matrix()
-        normalized_data_matrix_nparray = np.array(normalized_data_matrix)
+        self.correlation_validation_from_data_matrix(normalized_data_matrix, input_corr_path)
+        
+    def correlation_validation_from_data_matrix(self, data_matrix, input_corr_path, output_table_path = None, output_figure_path = None):
+        input_corr = pd.read_csv(input_corr_path)
+        normalized_data_matrix_nparray = np.array(data_matrix)
         std = np.std(normalized_data_matrix_nparray)
         mean = np.mean(normalized_data_matrix_nparray)
         
+        if output_table_path is None:
+            output_table_path = self.parameters.correlation_validation_results_path
+            
+        if output_figure_path is None:
+            output_figure_path = self.parameters.correlation_validation_results_figure_path
         
         target_curve_name = ["All","Same project","Same Condition","Across projects","Across conditions"]
         results = np.zeros((len(self.parameters.noise_ratio), len(target_curve_name)))
         
-        split_exp_indice_project, split_exp_indice_cond = self.split_exp_indice(normalized_data_matrix.columns.tolist(), 
+        split_exp_indice_project, split_exp_indice_cond = self.split_exp_indice(data_matrix.columns.tolist(), 
                                                                                 input_corr)
         
         for i in range(self.parameters.n_trial):
@@ -160,7 +167,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         results = results/self.parameters.n_trial
         
         results = pd.DataFrame(results, index = self.parameters.noise_ratio.tolist(), columns = target_curve_name)
-        results.to_csv(self.parameters.correlation_validation_results_path)
+        results.to_csv(output_table_path)
         
         fig = plt.figure()
         corr_plot = results.plot(
@@ -168,9 +175,8 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
             xlim = (-0.1,1.5)
         )
 
-
         corr_plot.set(xlabel='noise ratio',ylabel='correlation')
-        plt.savefig(self.parameters.correlation_validation_results_figure_path)
+        plt.savefig(output_figure_path)
         plt.close(fig)
         
     def split_exp_indice(self, col_name, input_corr):
@@ -211,14 +217,22 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         #    print('WARNING: You selected less than 5 genes in compendium!')
         return result
         
-        
     def knowledge_capture_validation(self, input_grouping_file_path, input_related_gene_file_path):
         t_compendium_collections = self.get_t_compendium_collections()
-        normalized_data_matrix = t_compendium_collections.get_normalized_data_matrix()
-        normalized_data_matrix_nparray = np.array(normalized_data_matrix)
+        normalized_data_matrix = t_compendium_collections.get_normalized_data_matrix() 
+        self.knowledge_capture_validation_from_data_matrix(normalized_data_matrix, input_grouping_file_path, input_related_gene_file_path)
         
-        data_matrix_exp_name = np.array(normalized_data_matrix.columns.tolist())
-        data_matrix_gene_name = np.array(normalized_data_matrix.index.tolist())
+    def knowledge_capture_validation_from_data_matrix(self, data_matrix, input_grouping_file_path, input_related_gene_file_path, output_table_path = None, output_figure_path = None):
+        normalized_data_matrix_nparray = np.array(data_matrix)
+        
+        if output_table_path is None:
+            output_table_path = self.parameters.knowledge_capture_validation_results_path
+            
+        if output_figure_path is None:
+            output_figure_path = self.parameters.knowledge_capture_validation_results_figure_path
+        
+        data_matrix_exp_name = np.array(data_matrix.columns.tolist())
+        data_matrix_gene_name = np.array(data_matrix.index.tolist())
         
         input_grouping = pd.read_csv(input_grouping_file_path)
         input_related_gene = pd.read_csv(input_related_gene_file_path)
@@ -233,9 +247,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         exp_indice_0 = self.get_indice(data_matrix_exp_name, exp_name_0)
         exp_indice_1 = self.get_indice(data_matrix_exp_name, exp_name_1)
         gene_indice = self.get_indice(data_matrix_gene_name, input_related_gene)
-        
 
-        
         ranking_dataset = self.knowledge_capture_validation_internal(normalized_data_matrix_nparray, exp_indice_0, exp_indice_1, gene_indice)
         ranking_dataset = np.expand_dims(ranking_dataset,axis=1)
         #Add Noise
@@ -257,8 +269,6 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
             
         ranking_noise = ranking_noise/self.parameters.n_trial
         
-        
-        
         ref = np.expand_dims(np.linspace(0,len(data_matrix_gene_name),len(gene_indice)+1),axis=1)
         final_results = np.concatenate((ranking_noise,ref),axis=1)
         
@@ -268,7 +278,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         final_results_columns.extend(np.round(self.parameters.noise_ratio,2))
         final_results_columns.extend(["ref"])
         final_results = pd.DataFrame(final_results, index = ratio, columns = final_results_columns)
-        final_results.to_csv(self.parameters.knowledge_capture_validation_results_path)
+        final_results.to_csv(output_table_path)
 
         fig = plt.figure()
 
@@ -286,10 +296,8 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
                 ax.plot(final_results[col],final_results.index.to_numpy(),'k--',linewidth=3,label="(control)")
                 ax.legend(loc='lower right',title="noise ratio")
 
-        plt.savefig(self.parameters.knowledge_capture_validation_results_figure_path,bbox_inches='tight', pad_inches=0)
+        plt.savefig(output_figure_path,bbox_inches='tight', pad_inches=0)
         plt.close(fig)
-
-
 
         
     def knowledge_capture_validation_internal(self, matrix, exp_indice_0, exp_indice_1, gene_indice):
@@ -309,24 +317,31 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
     def published_data_comparison(self, published_data_path):
         t_compendium_collections = self.get_t_compendium_collections()
         normalized_data_matrix = t_compendium_collections.get_normalized_data_matrix()
+        self.published_data_comparison_from_data_matrix(normalized_data_matrix, published_data_path)
         
+    def published_data_comparison_from_data_matrix(self, data_matrix, published_data_path, output_table_path = None, output_figure_path = None):
         published_data_matrix = pd.read_csv(published_data_path, index_col = 0)
         
-        compendium_gene_name = set(normalized_data_matrix.index.tolist())
+        if output_table_path is None:
+            output_table_path = self.parameters.published_data_comparison_results_path
+            
+        if output_figure_path is None:
+            output_figure_path = self.parameters.published_data_comparison_results_figure_path
+        
+        compendium_gene_name = set(data_matrix.index.tolist())
         published_data_gene_name = set(published_data_matrix.index.tolist())
         intersect_gene_name = list(compendium_gene_name.intersection(published_data_gene_name))
         
-        normalized_data_matrix_intersect_genes = normalized_data_matrix.loc[intersect_gene_name]
+        normalized_data_matrix_intersect_genes = data_matrix.loc[intersect_gene_name]
         published_data_matrix_intersect_genes = published_data_matrix.loc[intersect_gene_name]
         
 
         fig = plt.figure()
-        range_min, range_max = self.published_data_comparison_range_capture(published_data_matrix, compendium_data_matrix)
+
+        ax = fig.add_axes([0,0,1,1])
         
-        ax = fig.add_axes([range_min,range_min,range_max,range_max])
-        
-        ax.set_xlabel('Gene Expressions of compendium')
-        ax.set_ylabel('Gene Expressions of published data')
+        ax.set_xlabel('Gene Expressions of compendium in log scale')
+        ax.set_ylabel('Gene Expressions of published data in log scale')
         
         corr = []
         
@@ -343,7 +358,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
             cur_sample_value_compendium = cur_sample_value
             cur_sample_value_published = published_data_matrix_intersect_genes[e]
             corr.append(np.corrcoef(cur_sample_value_compendium, cur_sample_value_published))
-            ax.plot(cur_sample_value_compendium,cur_sample_value_published,linestyle="",color = "black",marker = ".")
+            ax.plot(np.log2(cur_sample_value_compendium+1),np.log2(cur_sample_value_published+1),linestyle="",marker = ".")
             
             normalized_data_matrix_intersect_genes_list.append(cur_sample_value_compendium)
             published_data_matrix_intersect_genes_list.append(cur_sample_value_published)
@@ -354,7 +369,7 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         published_data_matrix_intersect_genes_compare.columns = published_data_matrix_intersect_genes.columns.to_series().apply(lambda x: '(Published)' + x)
         
         final_result = pd.concat([normalized_data_matrix_intersect_genes_compare, published_data_matrix_intersect_genes_compare], axis = 1)
-        final_result.to_csv(self.parameters.published_data_comparison_results_path)
+        final_result.to_csv(output_table_path)
             
         avg_corr = np.mean(corr)
         avg_corr = np.format_float_scientific(avg_corr,trim='0',exp_digits=2,precision=3)
@@ -362,21 +377,6 @@ class SupervisedValidation(v_module_template.ValidationSubModule):
         std_corr = np.format_float_scientific(std_corr,trim='0',exp_digits=2,precision=3)
         ax.set_title("Compare with published data\n(N = " + str(len(corr)) + ') (Avg Corr = ' + str(avg_corr) + '±' + str(std_corr) + ')')
             
-        plt.savefig(self.parameters.published_data_comparison_results_figure_path,bbox_inches='tight', pad_inches=0)
+        plt.savefig(output_figure_path,bbox_inches='tight', pad_inches=0)
         plt.close(fig)
-            
-    def published_data_comparison_range_capture(self, compendium_data_matrix, published_data_matrix):
-        if np.min(np.min(compendium_data_matrix)) < np.min(np.min(published_data_matrix)):
-            result_min = np.min(np.min(compendium_data_matrix))
-        else:
-            result_min = np.min(np.min(published_data_matrix))
-        
-        if np.max(np.max(compendium_data_matrix)) > np.max(np.max(published_data_matrix)):
-            result_max = np.max(np.max(compendium_data_matrix))
-        else:
-            result_max = np.max(np.max(published_data_matrix))
-            
-        return result_min, result_max
-        
-        
         

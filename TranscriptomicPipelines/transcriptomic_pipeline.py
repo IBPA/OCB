@@ -65,9 +65,12 @@ class TranscriptomicDataPreparationPipeline:
                     gff_path, #GFF3 Table Paths
                     owner = None
                     ):
-                    
+        
         #Initialize Parameter Set:
         self.parameter_set = t_parameters.TranscriptomicParameters(self)
+        if len(m_query_id) == 0 and len(s_query_id) == 0:
+            self.validation_pipeline = validation_pipeline.ValidationPipeline(self)
+            return
                     
         #Initialize Environment:
         self.general_constant = GeneralConstant

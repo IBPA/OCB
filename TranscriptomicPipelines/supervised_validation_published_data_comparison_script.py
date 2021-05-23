@@ -26,4 +26,4 @@ if __name__ == '__main__':
     transcriptomic_pipeline.parameter_set.v_supervised_parameters_correlation_validation_results_figure_path = project_name + '_PublishedDataComparisonResults.png'
     
     transcriptomic_pipeline.validation_pipeline.configure_parameter_set_all()
-    transcriptomic_pipeline.validation_pipeline.supervised_validation.published_data_comparison_range_capture(published_data_path)
+    transcriptomic_pipeline.validation_pipeline.supervised_validation.published_data_comparison(published_data_path)
