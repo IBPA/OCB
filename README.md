@@ -1,12 +1,25 @@
-# Omics Compendium Builder (OCB): An automated omics compendium preparation pipeline
+# Omics Compendium Validator (OCV): A validation module for omics compendium validation
 
-This toolkit can prepare the transcriptomic compendium, a normalized, format-consistent data matrix across samples from different studies, by collecting the samples in <a href="https://www.ncbi.nlm.nih.gov/sra">Sequencing Read Archive (SRA)</a> database given the topic you are interested in and your target species.
+This validation module contains four Python scripts to validate the omics compendia with four different validation approaches.
 
-![Figure 1. The entire transcriptomic compendium pipeline](./images/Figure1.png)
-**Figure 1. The entire transcriptomic compendium pipeline.** The process consists of 6 steps: **1**, Metadata preparation by extracting run information from SRA. **2**, Downloading sequencing data in FASTA format. **3**, Aligning sequences with reference genomes. **4**, Generating gene expression profile for each run given the corresponding sequence direction information (BED) and gene annotation. **5**, Normalizing gene expression profile table. **6**, Different approaches for validating the quality of the generated compendium.
+# Overview
+The validation approaches assumes that a high quality omics compendium has the following four properties:
+- Low imputation errors
+- The average pairwise Pearson Correlation Coefficient (PCC) of the samples from the same conditions are higher than the average pairwise PCC of the entire samples
+- Capable to capture the information of differential expression genes (DEG): Given two conditions and the corresponded DEG as selected genes, the corresponded fold change between two conditions of the selected genes should be significantly higher/lower than the fold change of other genes
+- High consistency compared with published data
+
+In addition, the validation approaches assumes that a high quality compendium should keep these properties even it is perturbed by mixing with the noise -- a random permuted compendium.
+
+By evaluating the imputation errors with difference noise ratio, evaluating the max noise ratio that the perturbed compendium still has the properties with specified significance, the validation approaches can evaluate the quality of the input omics compendium.
+
+
+![Figure 1. Basic idea of the design of Omics Compendium Validator](Figures/Figure1.png)
+**Figure 1. Basic idea of the design of Omics Compendium.** The OCV assumes that a high quality compendium has four properties. A high quality compendium should keep these properties even it is perturbed by mixing the noise. By quantifying and tracking these four properties of the compendia with different noise ratio, the validation approach can evaluate the quality of the input compendium.
 
 # Directories
-- [`TranscriptomicPipelines`](./TranscriptomicPipelines): The folder contains the source code for OCB.
+- [`Examples`](./Examples): The folder contains the examples of evaluating the quality of five compendia with four different validation approaches. It contains all necessary files such as the compendium, labels of experimental conditions, information of DEG, and published dataset in comma separate value (.csv) format.
+- [`Scripts`](./Scripts): The folder contains the scripts of the OCV.
 
 # Getting Started
 
@@ -17,110 +30,142 @@ git clone https://github.com/IBPA/OCB.git
 
 ## Dependencies
 
-For Ubuntu users, there is the script to install software and Python packages once you have installed Python3.6 and <a herf="https://pypi.org/project/pip/">pip</a> packages:
-- [`install.bash (Ubuntu Only)`](./install.bash)
+The OCV runs in Python 3.7 (tested under version 3.7.9) with the following package installed:
 
-Adjust the file access mode if you cannot run the script, for example:
 ```
-chmod 755 install.bash
-./install.bash
-```
-
-After the script finish the installation, please follow the instuction to add the installation path to PATH variable.
-
-
-### Software
-
-Make sure the following softwares are installed. The following version has been tested. 
-
-Generally, it is good to use newer version even though it is not tested, but there will be some issues if older version is used.
-```
-python==3.6.9
-sra-tools==2.10.8
-bowtie==2.3.4
-```
-
-You can use the following official links to download the software with specified version:
-- <a href="https://www.python.org/downloads/release/python-369/">Python 3.6.9</a>
-- <a href="https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.8/">SRA toolkits 2.10.8</a>
-- <a href="https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.4/">Bowtie2.3.4</a>
-
-Then set the PATH variable so that you can call the executable everywhere.
-
-The SRA toolkits may need additional configuration. You can run the following command to check the configuration:
-```
-prefetch --version
-```
-
-Run the following command, edit and save the configuration if you cannot see the version:
-```
-vdb-config -i
-```
-
-### Packages
-
-Make sure to install the following Python packages.
-
-Generally it is good to use the newer packages except scikit-learn package.
-```
-biopython==1.74
-pandas==0.25
-RSeQC==3.0.0
-HTSeq==0.11.2
+pandas==1.2.4
 missingpy==0.2.0
-scikit-learn==0.20.1
-matplotlib==3.0.2
+scikit-learn==0.20.1 (The later version may not be compatable with missingpy package)
+matplotlib==3.4.2
 ```
 
 ## Running
 
-The pipeline consists of two components: Compendium construction and validation. The pipeline builds a compendium using the sample lists and gene annotations provided by users. Then it provides different validation approaches to validate the statistical siginificance and usefulness of the generated compendiums. For more detailed usage, see this [step-by-step tutorial](./TranscriptomicPipelines/README.md).
+The following example demostrate the evaluation of a Salmonella transcriptomic compendium.
 
-### Constructing Compendium
+Make sure that the `Scripts` directory contains the following files:
 
-#### Input
-
-In order to build a compendium, the script needs three input arguments:
-- The path to a sample list file ([Example](./TestFiles/SalmonellaExampleSampleList.csv), [Simple Example](./TestFiles/SimpleSalmonellaSampleList.csv))
-- The path to a gene annotation file.
-- An output compendium name.
-
-#### Output
-
-This script will generate a directory with specified compendium name and many files in the directory. There are two outputs that are the most important:
-- Normalized data matrix: A CSV table that contains normalized gene expression profiles of all samples. Each row represents different genes and each column represents different samples. The output is stored in '($compendium_name)_NormalizedDataMatrix.csv'.
-- Compendium in binary format: A python object that contains the normalized gene expression table and the recorded parameters. It can be used for optional validation. The output is stored in '($compendium_name)_projectfile.bin'.
-
-#### Example
-This example demostrate the simple compendium construction. It can be finished less than 5 minutes using a laptop with correct configuration (NOTE: This compendium is just for demo which allow users to view the format of output files, but cannot be validated due to limited sample number and sample size) 
 ```
-cd TranscriptomicPipelines
-python build_compendium_script.py \
-    ../TestFiles/SimpleSalmonellaSampleList.csv \
-    ../TestFiles/GCF_000006945.2_ASM694v2 \
-    SimpleSalmonellaExample
+Utils.py
+UnsupervisedValidation.py
+CorrelationValidation.py
+KnowledgeCaptureValidation.py
+PublishedDataComparison.py
 ```
 
+Also, make sure the `Examples` directory contains the following files:
 
-#### Example (Will be time consuming)
-This example process most of the Salmonella RNA-seq samples available in SRA. The compendium can be validated with four different approches (see the next part), but the compendium construction will be time consuming, which takes about one week if you process eight samples in parallel in cluster. To try the validation processes, please use this [processed compendium] (./SalmonellaExample.tar.gz).
 ```
-cd TranscriptomicPipelines
-python build_compendium_script.py \
-    ../TestFiles/SalmonellaExampleSampleList.csv \
-    ../TestFiles/GCF_000006945.2_ASM694v2 \
-    SalmonellaExample
+Dataset/Salmonella.csv
+CorrelationValidation/SalmonellaCorrelationExample.csv
+KnowledgeCaptureValidation/KnowledgeCapture_samples.csv
+KnowledgeCaptureValidation/KnowledgeCapture_genes.csv
+PublishedDataComparison/SalmonellaPublishedData.csv
 ```
 
-### Validating Compendium
+For demo, add `--demo` flag to the command (except published data comparison, which is not time consuming). The number of trials, noise ratio steps, and the size of the dataset will be reduced to reduce the computation time for demonstration.
 
-The pipeline provides several approaches to ensure the quality of the generated compendiums:
-- [Unsupervised validation](./TranscriptomicPipelines/VALIDATION.md)
-- [Supervised validation with correlation](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----correlation-validation)
-- [Supervised validation with knowledge capture](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----knowledge-capture-validation)
-- [Supervised validation with published data](./TranscriptomicPipelines/VALIDATION.md#an-supervised-approach----published-data-comparison)
+Addition argument can be added to generate the plot, table of imputation error/p-value, and table of scores. Please check the argument by adding `--help` flag to the command.
 
-Please refer to [validation totorial](./TranscriptomicPipelines/VALIDATION.md).
+### Unsupervised Validation
+
+Run unsupervised validation using the following command:
+```
+python Scripts/UnsupervisedValidation.py Examples/Dataset/Salmonella.csv --demo
+```
+
+The result will be shown as follows (If you do not run the demo mode, the first line will not appear, and the score may be different due to randomness).
+
+```
+Running Demo Mode!
+Unsuperivsed validation result of input Examples\Dataset\Salmonella.csv :
+Compendium size (#features, #samples) : (468, 12)
+Average score of 3 trials : 0.491 +/- 0.089
+```
+
+### Correlation Validation
+
+Correlation validation requires one additional input -- condition labels of samples:
+
+```
+python Scripts\CorrelationValidation.py Examples\Dataset\Salmonella.csv Examples\CorrelationValidation\SalmonellaCorrelationExample.csv --demo
+```
+
+The result will be shown as follows (If you do not run the demo mode, the first line will not appear, and the score may be different due to randomness).
+
+```
+Running Demo Mode!
+Correlation validation result of input Examples\Dataset\Salmonella.csv :
+Compendium size (#features, #samples) : (4672, 116)
+#pairs (All samples) : 6670
+#pairs (Same condition samples) : 50
+Average score of 3 trials : 0.333 +/- 0.189
+```
+
+### Knowledge Capture Validation
+
+Knowledge capture validation requires the following inputs:
+
+- Path of input compendium
+- Path of input condition labels
+- Condition label (control)
+- Condition label (experimental case)
+- Path of feature list which is expected to be significantly increase/decrease in experimental case compared with control
+- up or down (to specify the expected changes observed in experimental case)
+
+```
+python Scripts\KnowledgeCaptureValidation.py Examples\Dataset\Salmonella.csv Examples\KnowledgeCaptureValidation\KnowledgeCapture_samples.csv  no_fur fur Examples\KnowledgeCaptureValidation\KnowledgeCapture_genes.csv down --demo
+```
+
+The result will be shown as follows (If you do not run the demo mode, the first line will not appear, and the score may be different due to randomness).
+
+```
+Running Demo Mode!
+Knowledge capture validation result of input Examples\Dataset\Salmonella.csv :
+Compendium size (#features, #samples) : (4672, 116)
+#Control Condition Samples : 2
+#Experimental Condition Samples : 1
+#selected features : 18
+#non-selected features : 4654
+Average score of 3 trials : 0.933 +/- 0.047
+```
+
+### Compare with published data
+
+Published data comparison simply takes input compendium and published data:
+
+```
+python Scripts\PublishedDataComparison.py Examples\Dataset\Salmonella.csv Examples\PublishedDataComparison\SalmonellaPublishedData.csv
+```
+
+It is not necessary that the samples and features in input compendium and published data must be the same : The common features and samples will be extracted for comparison. In addition, multiple samples in input compendium can be mapped into one sample in published data. For further details, view help with `--help` flag or check the published dataset directly.
+
+The result will be shown as follows. (If more than one samples. If there are more than one samples in the input compendium mapped into one sample in published data, notices will be shown)
+```
+
+Notice: More than one samples in input compendium mapped to one sample in published data
+
+Samples :
+SRR951029
+SRR951030
+SRR951031
+
+Notice: More than one samples in input compendium mapped to one sample in published data
+
+Samples :
+SRR951034
+SRR951035
+
+Published Data Comparison:
+input compendium : Examples\Dataset\Salmonella.csv
+published data : Examples\PublishedDataComparison\SalmonellaPublishedData.csv
+
+Compendium size (#features, #samples) : (4672, 116)
+Published data size (#features, #samples) : (4367, 26)
+Data size for comparison (#features, #samples) : (4351, 26)
+
+Average samplewise PCC = 0.850 +/- 0.053
+```
 
 # Authors
 
